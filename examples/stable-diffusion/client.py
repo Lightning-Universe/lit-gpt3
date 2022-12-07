@@ -4,9 +4,10 @@ import io
 import PIL.Image as Image
 import requests
 
-response = requests.post(
-    "https://beutr-01gkmxry8pdqvetyf59xz8qrzv.litng-ai-03.litng.ai/predict",
-    json={"text": "Harry potter-inspired bedroom"},
-)
-image = Image.open(io.BytesIO(base64.b64decode(response.json()["image"][22:])))
-image.save("response.png")
+if __name__ == "__main__":
+    response = requests.post(
+        "https://01gkprgszjwpb8czpwf8xhxv50.litng-ai-03.litng.ai/predict",
+        json={"text": "Harry potter-inspired bedroom"},
+    )
+    image = Image.open(io.BytesIO(base64.b64decode(response.json()["image"][22:])))
+    image.save("response.png")

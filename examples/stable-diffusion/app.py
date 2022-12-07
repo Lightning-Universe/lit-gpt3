@@ -20,7 +20,12 @@ class Text(BaseModel):
 
 
 class StableDiffusionServer(PythonServer):
-    def __init__(self, input_type=Text, output_type=Image):
+    def __init__(
+        self,
+        input_type=Text,
+        output_type=Image,
+        enhance_prompt_fn=None,
+    ):
         super().__init__(
             input_type=input_type,
             output_type=output_type,
@@ -28,7 +33,7 @@ class StableDiffusionServer(PythonServer):
         )
 
         self._model = None
-        self.gpt3 = LightningGPT3(api_key=os.getenv("OPENAI_API_KEY"))
+        self.enhance_prompt_fn = enhance_prompt_fn
 
     def setup(self):
         download_from_lightning_cloud("daniela/stable_diffusion", version="latest", output_dir="model")
@@ -36,15 +41,34 @@ class StableDiffusionServer(PythonServer):
             "cuda" if torch.cuda.is_available() else "cpu"
         )
 
-    def predict(self, request):
+    def predict(self, request: Text):
         prompt = "Describe a " + request.text + " picture"
-        prompt = self.gpt3.generate(prompt=prompt)
-        print(prompt)
+        enhanced_prompt = self.enhance_prompt_fn(prompt)
+
+        # FIXME: Debugging
+        print("Original prompt:", request.text)
+        print("Enhanced prompt:", enhanced_prompt)
+
         image = self._model(prompt)[0][0]
         buffer = io.BytesIO()
         image.save(buffer, format="PNG")
         img_str = base64.b64encode(buffer.getvalue()).decode("utf-8")
+
         return {"image": f"data:image/png;base64,{img_str}"}
 
 
-app = L.LightningApp(StableDiffusionServer())
+class Root(L.LightningFlow):
+    def __init__(self):
+        super().__init__()
+
+        self.gpt3 = LightningGPT3(api_key=os.getenv("OPENAI_API_KEY"))
+        self.stable_diffusion = StableDiffusionServer(enhance_prompt_fn=self.gpt3.generate)
+
+    def configure_layout(self):
+        return {"name": "endpoint", "content": self.stable_diffusion.url}
+
+    def run(self):
+        self.stable_diffusion.run()
+
+
+app = L.LightningApp(Root())
