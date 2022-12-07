@@ -488,3 +488,6 @@ wandb/
 github/
 __pycache__
 examples/stable-diffusion/model/*
+examples/stable-diffusion/.lightning
+examples/stable-diffusion/.lightning
+examples/stable-diffusion/response.png

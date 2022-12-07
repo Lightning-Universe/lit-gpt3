@@ -22,7 +22,7 @@ class LightningGPT3:
             
     def generate(self, prompt: str, max_tokens: int = 20):
         if max_tokens<15:
-            warnings.warn('Warning Message: the max_token variable is too small, your prompts may lack iformation, try max_tokens>=15')
+            warnings.warn('Warning Message: the max_token variable is too small, your prompts may lack information, try max_tokens>=15')
             
         response = openai.Completion.create(model=GPT_MODEL, prompt=prompt, max_tokens=max_tokens, temperature=0.7)
         return response["choices"][0]["text"]

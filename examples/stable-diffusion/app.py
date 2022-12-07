@@ -1,14 +1,11 @@
 # !pip install 'git+https://github.com/Lightning-AI/lightning-diffusion-component.git'
-# !pip install 'git+https://github.com/Lightning-AI/lightning-gpt3.git'
-import base64
-import io
-import os
+# !pip install 'git+https://github.com/Lightning-AI/lightning-gpt3.git@error-messages'
+
 
 import lightning as L
-import torch
+import torch, os, io, base64
 from diffusers import StableDiffusionPipeline
-from lightning.app.components import Image
-from lightning.app.components.serve import PythonServer
+from lightning.app.components import Image, serve
 from lightning_diffusion import download_from_lightning_cloud
 from pydantic import BaseModel
 
@@ -19,7 +16,7 @@ class Text(BaseModel):
     text: str
 
 
-class StableDiffusionServer(PythonServer):
+class StableDiffusionServer(serve.PythonServer):
     def __init__(
         self,
         input_type=Text,
@@ -42,13 +39,13 @@ class StableDiffusionServer(PythonServer):
 
     def predict(self, request: Text):
         prompt = "Describe a " + request.text + " picture"
-        enhanced_prompt = self._gpt3.generate(prompt=prompt,max_tokens=40)
+        enhanced_prompt = self._gpt3.generate(prompt=prompt,max_tokens=40)[2::]
 
         # FIXME: Debugging
         print("Original prompt:", request.text)
         print("Enhanced prompt:", enhanced_prompt)
 
-        image = self._model(prompt[2::])[0][0]
+        image = self._model(enhanced_prompt)[0][0]
         buffer = io.BytesIO()
         image.save(buffer, format="PNG")
         img_str = base64.b64encode(buffer.getvalue()).decode("utf-8")

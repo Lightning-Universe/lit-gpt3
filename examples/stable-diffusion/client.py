@@ -1,13 +1,9 @@
-import base64
-import io
-
-import PIL.Image as Image
-import requests
+import base64, io, requests, PIL.Image as Image
 
 if __name__ == "__main__":
     response = requests.post(
-        "http://127.0.0.1:7777/predict",
-        json={"text": "Harry potter-inspired bedroom"},
+        "https://tiuvn-01gkqb1e6zfj2gh3aqz2kvvcx4.litng-ai-03.litng.ai/predict",
+        json={"text": "forest-inspired bedroom"},
     )
     print
     image = Image.open(io.BytesIO(base64.b64decode(response.json()["image"][22:])))
