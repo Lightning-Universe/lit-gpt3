@@ -6,7 +6,7 @@ import requests
 
 if __name__ == "__main__":
     response = requests.post(
-        "https://wxoak-01gkptph8n1ztya1rt64ze4a30.litng-ai-03.litng.ai/predict",
+        "http://127.0.0.1:7777/predict",
         json={"text": "Harry potter-inspired bedroom"},
     )
     print

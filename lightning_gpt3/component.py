@@ -1,4 +1,5 @@
 import openai
+import warnings
 
 GPT_MODEL = "text-davinci-003"
 
@@ -14,11 +15,16 @@ class LightningGPT3:
         super().__init__()
 
         openai.api_key = api_key
-        # TODO: make sure provided `api_key` and is valid
-
+        try:
+            openai.Model.list()
+        except:
+            raise Exception("Sorry, you provided an invalid API Key")
+            
     def generate(self, prompt: str, max_tokens: int = 20):
+        if max_tokens<15:
+            warnings.warn('Warning Message: the max_token variable is too small, your prompts may lack iformation, try max_tokens>=15')
+            
         response = openai.Completion.create(model=GPT_MODEL, prompt=prompt, max_tokens=max_tokens, temperature=0.7)
-
         return response["choices"][0]["text"]
 
     def run(self):

@@ -42,13 +42,13 @@ class StableDiffusionServer(PythonServer):
 
     def predict(self, request: Text):
         prompt = "Describe a " + request.text + " picture"
-        enhanced_prompt = self._gpt3.generate(prompt=prompt)
+        enhanced_prompt = self._gpt3.generate(prompt=prompt,max_tokens=40)
 
         # FIXME: Debugging
         print("Original prompt:", request.text)
         print("Enhanced prompt:", enhanced_prompt)
 
-        image = self._model(prompt)[0][0]
+        image = self._model(prompt[2::])[0][0]
         buffer = io.BytesIO()
         image.save(buffer, format="PNG")
         img_str = base64.b64encode(buffer.getvalue()).decode("utf-8")

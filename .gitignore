@@ -487,3 +487,4 @@ wandb/
 .python-version
 github/
 __pycache__
+examples/stable-diffusion/model/*
