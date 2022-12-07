@@ -1,10 +1,9 @@
-import lightning as L
 import openai
 
 GPT_MODEL = "text-davinci-003"
 
 
-class LightningGPT3(L.LightningFlow):
+class LightningGPT3:
     """This `LightningFlow` component allows integrating GPT-3 into your Lightning App.
 
     The `generate()` method can be used to generate text from a prompt. The `run()` method is a no-op, since this

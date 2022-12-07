@@ -6,8 +6,9 @@ import requests
 
 if __name__ == "__main__":
     response = requests.post(
-        "https://01gkprgszjwpb8czpwf8xhxv50.litng-ai-03.litng.ai/predict",
+        "https://wxoak-01gkptph8n1ztya1rt64ze4a30.litng-ai-03.litng.ai/predict",
         json={"text": "Harry potter-inspired bedroom"},
     )
+    print
     image = Image.open(io.BytesIO(base64.b64decode(response.json()["image"][22:])))
     image.save("response.png")
