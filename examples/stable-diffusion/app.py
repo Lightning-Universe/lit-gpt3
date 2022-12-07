@@ -1,5 +1,5 @@
 # !pip install 'git+https://github.com/Lightning-AI/lightning-diffusion-component.git'
-# !pip install 'git+https://github.com/Lightning-AI/lightning-gpt3.git@error-messages'
+# !pip install 'git+https://github.com/Lightning-AI/lightning-gpt3.git'
 
 
 import lightning as L
