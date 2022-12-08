@@ -20,7 +20,7 @@ This example showcases how to use the component to enhance the prompts in the St
 # !pip install 'git+https://github.com/Lightning-AI/lightning-gpt3.git'
 
 import lightning as L
-import torch, os, io, base64, diffusers, pydantic 
+import torch, os, io, base64, diffusers, pydantic
 from lightning.app.components import Image, serve
 from lightning_diffusion import download_from_lightning_cloud
 from lightning_gpt3 import LightningGPT3
@@ -31,11 +31,10 @@ class Text(pydantic.BaseModel):
 
 
 class StableDiffusionServer(serve.PythonServer):
-    def __init__(self, input_type=Text,output_type=Image):
+    def __init__(self, input_type=Text, output_type=Image):
         super().__init__(
-            input_type=input_type,
-            output_type=output_type,
-            cloud_compute=L.CloudCompute("gpu-fast", shm_size=512))
+            input_type=input_type, output_type=output_type, cloud_compute=L.CloudCompute("gpu-fast", shm_size=512)
+        )
         self._model = None
         self._gpt3 = LightningGPT3(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -56,7 +55,6 @@ class StableDiffusionServer(serve.PythonServer):
 
 
 app = L.LightningApp(StableDiffusionServer())
-
 
 ```
 
