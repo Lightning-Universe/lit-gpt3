@@ -5,6 +5,6 @@ if __name__ == "__main__":
         "http://127.0.0.1:7777/predict",
         json={"text": "fairy tail-inspired bedroom"},
     )
-    print
+
     image = Image.open(io.BytesIO(base64.b64decode(response.json()["image"][22:])))
     image.save("response.png")

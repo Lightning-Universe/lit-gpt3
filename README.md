@@ -101,7 +101,6 @@ if __name__ == "__main__":
         "YOUR_PREDICT_URL",
         json={"text": "YOUR_PROMPT"},
     )
-    print
     image = Image.open(io.BytesIO(base64.b64decode(response.json()["image"][22:])))
     image.save("response.png")
 ```
