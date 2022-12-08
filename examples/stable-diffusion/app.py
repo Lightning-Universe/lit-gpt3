@@ -37,5 +37,3 @@ class StableDiffusionServer(serve.PythonServer):
 
 
 app = L.LightningApp(StableDiffusionServer())
-
-app = L.LightningApp(StableDiffusionServer())

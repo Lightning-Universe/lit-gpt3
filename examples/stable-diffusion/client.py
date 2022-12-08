@@ -2,7 +2,7 @@ import base64, io, requests, PIL.Image as Image
 
 if __name__ == "__main__":
     response = requests.post(
-        "https://qtnet-01gkqdcvn9aqcqr27dcszrf07p.litng-ai-03.litng.ai/predict",
+        "http://127.0.0.1:7777/predict",
         json={"text": "fairy tail-inspired bedroom"},
     )
     print

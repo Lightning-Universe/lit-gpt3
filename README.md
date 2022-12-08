@@ -59,6 +59,8 @@ app = L.LightningApp(StableDiffusionServer())
 
 
 ```
+
+
 ## Installing Lightning
 If you don't have lightning installed yet, install it using
 
@@ -84,6 +86,31 @@ Run it in the cloud using
 ```  bash
 
 lightning run app app.py --setup --env OPENAI_API_KEY=<OPENAI_API_KEY>  --cloud 
+
+```
+
+
+## Make a request:
+To make a request copy the next example:
+
+``` python 
+import base64, io, requests, PIL.Image as Image
+
+if __name__ == "__main__":
+    response = requests.post(
+        "YOUR_PREDICT_URL",
+        json={"text": "YOUR_PROMPT"},
+    )
+    print
+    image = Image.open(io.BytesIO(base64.b64decode(response.json()["image"][22:])))
+    image.save("response.png")
+```
+
+
+Then run:
+```  bash
+
+python client.py
 
 ```
 
