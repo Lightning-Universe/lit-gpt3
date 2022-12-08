@@ -2,17 +2,17 @@
 
 ## Description
 
-This component makes it a breeze to integrate GPT-3 into your Lightning Apps. It wraps the OpenAI API into a single, user-friendly class, providing a smooth integration and improved performance.
+This component makes it a breeze to integrate GPT-3 into your Lightning Apps. It wraps the OpenAI API into a  user-friendly class, providing a smooth integration and improved performance.
 
-To use this component you'll need to generate your own OpenAI API key. To generate your key, you'll need to sign up for an OpenAI account.
+To use the component you'll need to generate your OpenAI API key. To generate your key, you'll need to sign up for an OpenAI account.
 
 ## What is GPT3
    
-   GPT-3 ("Generative Pretrained Transformer 3") is natural language processing (NLP) model developed by OpenAI that can generate human-like text, perform language translation, and answer questions.
-
+    GPT-3 ("Generative Pretrained Transformer 3") is a natural language processing (NLP) model developed by OpenAI that can generate human-like text, perform language translation, and answer questions.
+  
 ## Let's integrate it into an example:
 
-This example showcases how to use the component to enhance the prompts in the Stable Diffusion (SD). Using these prompts, Stable Diffusion can generate more detailed and realistic images with the SD algorithm. 
+This example showcases how to use the component to enhance the prompts in the Stable Diffusion (SD). Using these prompts, Stable Diffusion can generate more detailed and realistic images with the SD algorithm. To run this example save this code as app.py:
 
 
 ``` python 
@@ -62,7 +62,7 @@ app = L.LightningApp(StableDiffusionServer())
 
 
 ## Installing Lightning
-If you don't have lightning installed yet, install it using
+If you don't have Lightning installed yet, install it using the command:
 
 ``` bash
 
@@ -91,7 +91,7 @@ lightning run app app.py --setup --env OPENAI_API_KEY=<OPENAI_API_KEY>  --cloud
 
 
 ## Make a request:
-To make a request copy the next example:
+To make a request  save this code as client.py:
 
 ``` python 
 import base64, io, requests, PIL.Image as Image
@@ -107,7 +107,7 @@ if __name__ == "__main__":
 ```
 
 
-Then run:
+Then, run:
 ```  bash
 
 python client.py
