@@ -16,7 +16,7 @@ class Text(BaseModel):
     text: str
 
 
-class StableDiffusionServer(serve.PythonServer):
+class WhisperServer(serve.PythonServer):
     def __init__(
         self,
         input_type=Text,
@@ -46,4 +46,4 @@ class StableDiffusionServer(serve.PythonServer):
         return {"text": str(answer)}
 
 
-app = L.LightningApp(StableDiffusionServer())
+app = L.LightningApp(WhisperServer())
