@@ -29,7 +29,6 @@ class StableDiffusionServer(serve.PythonServer):
         os.system(
             "curl -C - https://pl-public-data.s3.amazonaws.com/dream_stable_diffusion/768-v-ema.ckpt -o 768-v-ema.ckpt"
         )
-        os.system("echo *.ckpt > .lightningignore ")
 
         self._trainer = L.Trainer(
             accelerator="auto",
