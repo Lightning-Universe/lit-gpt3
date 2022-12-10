@@ -491,3 +491,9 @@ examples/stable-diffusion/model/*
 examples/stable-diffusion/.lightning
 examples/stable-diffusion/.lightning
 examples/stable-diffusion/response.png
+examples/stable-diffusion/768-v-ema.ckpt
+examples/stable-diffusion/v2-1_768-ema-pruned.ckpt
+examples/stable-diffusion/v2-inference-v.yaml
+examples/stable-diffusion/v1-5-pruned-emaonly.ckpt
+examples/stable-diffusion/v1-inference.yaml
+examples/stable-diffusion/.storage/frontend/logs.log
