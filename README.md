@@ -18,6 +18,7 @@ This example showcases how to use the component to enhance the prompts in the St
 ``` python 
 # !pip install 'git+https://github.com/Lightning-AI/lightning-gpt3.git'
 # !pip install 'git+https://github.com/Lightning-AI/LAI-API-Access-UI-Component.git@diffusion'
+# !pip install 'git+https://github.com/Lightning-AI/stablediffusion.git@lit'
 # !curl https://raw.githubusercontent.com/Lightning-AI/stablediffusion/main/configs/stable-diffusion/v2-inference-v.yaml -o v2-inference-v.yaml
 
 
