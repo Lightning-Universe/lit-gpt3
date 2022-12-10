@@ -51,12 +51,9 @@ class StableDiffusionServer(serve.PythonServer):
             torch.cuda.empty_cache()
 
     def predict(self, request: Text):
-        print(self._trainer.strategy.root_device.type)
         prompt = "Describe a " + request.text + " picture"
         enhanced_prompt = self._gpt3.generate(prompt=prompt, max_tokens=40)[2::]
-        image = self._trainer.predict(self._model, torch.utils.data.DataLoader(PromptDataset([enhanced_prompt])),)[
-            0
-        ][0]
+        image = self._trainer.predict(self._model, torch.utils.data.DataLoader(PromptDataset([enhanced_prompt])))[0][0]
         buffer = io.BytesIO()
         image.save(buffer, format="PNG")
         img_str = base64.b64encode(buffer.getvalue()).decode("utf-8")
