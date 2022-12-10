@@ -7,8 +7,8 @@ This component makes it a breeze to integrate GPT-3 into your Lightning Apps. It
 To use the component you'll need to generate your OpenAI API key. To generate your key, you'll need to sign up for an OpenAI account.
 
 ## What is GPT3
-   
-    GPT-3 ("Generative Pretrained Transformer 3") is a natural language processing (NLP) model developed by OpenAI that can generate human-like text, perform language translation, and answer questions.
+GPT-3 ("Generative Pretrained Transformer 3") is a natural language processing (NLP) model developed by OpenAI that can generate human-like text, perform language translation, and answer questions.
+    
   
 ## Let's integrate it into an example:
 
