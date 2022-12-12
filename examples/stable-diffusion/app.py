@@ -18,8 +18,17 @@ class Text(pydantic.BaseModel):
     text: str
 
 
+<<<<<<< HEAD
 class StableDiffusionServer(serve.PythonServer):
     def __init__(self, input_type=Text, output_type=Image):
+=======
+class StableDiffusionServer(PythonServer):
+    def __init__(
+        self,
+        input_type=Text,
+        output_type=Image,
+    ):
+>>>>>>> main
         super().__init__(
             input_type=input_type, output_type=output_type, cloud_compute=L.CloudCompute("gpu-fast", shm_size=512)
         )
@@ -52,8 +61,18 @@ class StableDiffusionServer(serve.PythonServer):
 
     def predict(self, request: Text):
         prompt = "Describe a " + request.text + " picture"
+<<<<<<< HEAD
         enhanced_prompt = self._gpt3.generate(prompt=prompt, max_tokens=40)[2::]
         image = self._trainer.predict(self._model, torch.utils.data.DataLoader(PromptDataset([enhanced_prompt])))[0][0]
+=======
+        enhanced_prompt = self._gpt3.generate(prompt=prompt)
+
+        # FIXME: Debugging
+        print("Original prompt:", request.text)
+        print("Enhanced prompt:", enhanced_prompt)
+
+        image = self._model(prompt)[0][0]
+>>>>>>> main
         buffer = io.BytesIO()
         image.save(buffer, format="PNG")
         img_str = base64.b64encode(buffer.getvalue()).decode("utf-8")

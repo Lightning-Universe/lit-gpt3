@@ -5,7 +5,11 @@ GPT_MODEL = "text-davinci-003"
 
 
 class LightningGPT3:
+<<<<<<< HEAD
     """This class component allows integrating GPT-3 into your Lightning App.
+=======
+    """This `LightningFlow` component allows integrating GPT-3 into your Lightning App.
+>>>>>>> main
 
     The `generate()` method can be used to generate text from a prompt. The `run()` method is a no-op, since this
     component doesn't need to run anything.
