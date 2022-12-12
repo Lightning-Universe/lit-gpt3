@@ -5,11 +5,9 @@ GPT_MODEL = "text-davinci-003"
 
 
 class LightningGPT3:
-    # This class component allows integrating GPT-3 into your Lightning App.
-
-    # The `generate()` method can be used to generate text from a prompt.
-
-    # This component just acts as a wrapper around the OpenAI API
+    """This class component allows integrating GPT-3 into your Lightning App.
+    The `generate()` method can be used to generate text from a prompt.
+     This component just acts as a wrapper around the OpenAI API"""
 
     def __init__(self, api_key: str):
         super().__init__()
