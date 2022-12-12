@@ -1,4 +1,4 @@
-# !pip install 'git+https://github.com/Lightning-AI/lightning-gpt3.git@main'
+# !pip install 'git+https://github.com/Lightning-AI/lightning-gpt3.git'
 # !pip install 'git+https://github.com/Lightning-AI/LAI-API-Access-UI-Component.git@diffusion'
 # !pip install 'git+https://github.com/Lightning-AI/stablediffusion.git@lit'
 # !curl https://raw.githubusercontent.com/runwayml/stable-diffusion/main/configs/stable-diffusion/v1-inference.yaml -o v1-inference.yaml
