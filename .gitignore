@@ -490,3 +490,4 @@ __pycache__
 examples/stable-diffusion/v1-5-pruned-emaonly.ckpt
 examples/stable-diffusion/v1-inference.yaml
 examples/stable-diffusion/.storage/frontend/logs.log
+examples/stable-diffusion/response.png
