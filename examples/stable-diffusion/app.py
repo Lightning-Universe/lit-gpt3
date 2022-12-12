@@ -36,7 +36,7 @@ class StableDiffusionServer(serve.PythonServer):
             devices=1,
             precision=16 if torch.cuda.is_available() else 32,
             enable_progress_bar=False,
-            inference_mode=False,
+            inference_mode=torch.cuda.is_available(),
         )
 
         self._model = LightningStableDiffusion(
@@ -53,10 +53,7 @@ class StableDiffusionServer(serve.PythonServer):
     def predict(self, request: Text):
         prompt = "Describe a " + request.text + " picture"
         enhanced_prompt = self._gpt3.generate(prompt=prompt, max_tokens=40)[2::]
-        with torch.no_grad():
-            image = self._trainer.predict(self._model, torch.utils.data.DataLoader(PromptDataset([enhanced_prompt])))[
-                0
-            ][0]
+        image = self._trainer.predict(self._model, torch.utils.data.DataLoader(PromptDataset([enhanced_prompt])))[0][0]
         buffer = io.BytesIO()
         image.save(buffer, format="PNG")
         img_str = base64.b64encode(buffer.getvalue()).decode("utf-8")

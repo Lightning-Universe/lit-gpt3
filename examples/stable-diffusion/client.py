@@ -2,7 +2,7 @@ import base64, io, requests, PIL.Image as Image
 
 if __name__ == "__main__":
     response = requests.post(
-        "http://127.0.0.1:50479/predict",
+        "http://127.0.0.1:53566/predict",
         json={"text": "disney-inspired bedroom"},
     )
 
