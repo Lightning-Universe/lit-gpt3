@@ -36,7 +36,7 @@ class Text(pydantic.BaseModel):
     text: str
 
 
-class PrompEnhancedStableDiffusionServer(serve.PythonServer):
+class PromptEnhancedStableDiffusionServer(serve.PythonServer):
     def __init__(self, input_type=Text, output_type=Image):
         super().__init__(
             input_type=input_type, output_type=output_type, cloud_compute=L.CloudCompute("gpu-fast", shm_size=512)
