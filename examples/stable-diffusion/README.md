@@ -44,8 +44,8 @@ If you prefer to run it in the cloud use:
 ``` bash
 lightning run app app.py --setup --cloud
 ```
-**
-Simple UI:**
+
+**Simple UI:**
 ``` bash
 lightning run app app_simple_UI.py --setup --cloud
 ```
