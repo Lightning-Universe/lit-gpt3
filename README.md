@@ -35,7 +35,9 @@ os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
 
 class StableDiffusionServer(serve.PythonServer):
     def __init__(self, cloud_compute, input_type=Text, output_type=Image):
-        super().__init__(input_type=input_type, output_type=output_type, cloud_compute=cloud_compute)
+        super().__init__(
+            input_type=input_type, output_type=output_type, cloud_compute=cloud_compute
+            )
         self._model = None
         self._gpt3 = LightningGPT3(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -62,7 +64,9 @@ class StableDiffusionServer(serve.PythonServer):
     def predict(self, request: Text):
         prompt = "Describe a " + request.text + " picture"
         enhanced_prompt = self._gpt3.generate(prompt=prompt, max_tokens=40)
-        image = self._trainer.predict(self._model, torch.utils.data.DataLoader(PromptDataset([enhanced_prompt])))[0][0]
+        image = self._trainer.predict(self._model, torch.utils.data.DataLoader(
+            PromptDataset([enhanced_prompt]))
+        )[0][0]
         buffer = io.BytesIO()
         image.save(buffer, format="PNG")
         img_str = base64.b64encode(buffer.getvalue()).decode("utf-8")
