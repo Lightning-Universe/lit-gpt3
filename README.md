@@ -27,7 +27,6 @@ import torch, os, io, base64, pydantic, ldm
 from lightning.app.components import Image, serve
 from lightning_gpt3 import LightningGPT3
 
-
 # For running on M1/M2
 os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
 
