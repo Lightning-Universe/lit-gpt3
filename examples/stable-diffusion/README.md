@@ -29,7 +29,6 @@ cd lightning-gpt3/examples/stable-diffusion
 
 To run the  app locally using the command:
 
-  **Server:**
  ``` bash
  lightning run app app.py --setup
  ```
@@ -37,7 +36,6 @@ To run the  app locally using the command:
 If you prefer to run it in the cloud use:
 
 
-  **Server:**
  ``` bash
  lightning run app app.py --setup --cloud
  ```
