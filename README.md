@@ -33,7 +33,7 @@ from lightning_gpt3 import LightningGPT3
 os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
 
 
-class StableDiffusionServer(serve.PythonServer):
+class PromptEnhancedStableDiffusionServer(serve.PythonServer):
     def __init__(self, cloud_compute, input_type=Text, output_type=Image):
         super().__init__(
             input_type=input_type, output_type=output_type, cloud_compute=cloud_compute
@@ -74,7 +74,10 @@ class StableDiffusionServer(serve.PythonServer):
         return {"image": f"data:image/png;base64,{img_str}"}
 
 
-app = L.LightningApp(StableDiffusionServer(cloud_compute=L.CloudCompute("gpu-fast", disk_size=80)))
+app = L.LightningApp(
+    PromptEnhancedStableDiffusionServer(
+    cloud_compute=L.CloudCompute("gpu-fast", disk_size=80)
+))
 
 
 ```
