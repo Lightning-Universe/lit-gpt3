@@ -29,29 +29,29 @@ cd lightning-gpt3/examples/stable-diffusion
 
 To run the  app locally using the command:
 
- **Server:**
-``` bash
-lightning run app app.py --setup
-```
+  **Server:**
+ ``` bash
+ lightning run app app.py --setup
+ ```
 
-**Simple UI:**
-``` bash
-lightning run app app_simple_UI.py --setup
-```
+ **Simple UI:**
+ ``` bash
+ lightning run app app_simple_UI.py --setup
+ ```
 
 
 If you prefer to run it in the cloud use:
 
 
- **Server:**
-``` bash
-lightning run app app.py --setup --cloud
-```
+  **Server:**
+ ``` bash
+ lightning run app app.py --setup --cloud
+ ```
 
-**Simple UI:**
-``` bash
-lightning run app app_simple_UI.py --setup --cloud
-```
+ **Simple UI:**
+ ``` bash
+ lightning run app app_simple_UI.py --setup --cloud
+ ```
 
 ## Step 4
 Once your server is ready, check the Lightning tap (locally) or open your app (cloud). Then, use the predict API address to make requests to your server. To do this, you can use the code snippet provided in the tab, or use the client.py file in the examples/stable-diffusion directory. Just remember to update the URL to your current predict URL. 
