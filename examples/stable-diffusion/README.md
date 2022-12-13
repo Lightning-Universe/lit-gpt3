@@ -23,17 +23,29 @@ cd lightning-gpt3/examples/stable-diffusion
 
 ```
 ## Step 3:
-To run the app locally using the command:
+To run the  app locally using the command:
 
+### Server:
 ``` bash
 lightning run app app.py --setup
 ```
+
+### Simple UI:
+``` bash
+lightning run app app_simple_UI.py --setup
+```
+
 **_NOTE:_**  This process will download the stable diffusion weights from s3, which are 4.27 GB in size. The time it takes will depend on your internet speed
 
 If you prefer to run it in the cloud use:
 
+### Server:
 ``` bash
 lightning run app app.py --setup --cloud
+```
+### Simple UI:
+``` bash
+lightning run app app_simple_UI.py --setup --cloud
 ```
 
 ## Step 4
