@@ -34,12 +34,6 @@ To run the  app locally using the command:
  lightning run app app.py --setup
  ```
 
- **Simple UI:**
- ``` bash
- lightning run app app_simple_UI.py --setup
- ```
-
-
 If you prefer to run it in the cloud use:
 
 
@@ -48,13 +42,8 @@ If you prefer to run it in the cloud use:
  lightning run app app.py --setup --cloud
  ```
 
- **Simple UI:**
- ``` bash
- lightning run app app_simple_UI.py --setup --cloud
- ```
-
 ## Step 4
-If you used the server app, once it is ready, check the Lightning tap (locally) or open your app (cloud). Then, use the predict API address to make requests to your server. To do this, you can use the code snippet provided in the tab, or use the client.py file in the examples/stable-diffusion directory. Just remember to update the URL to your current predict URL. 
+Once the server is ready, check the Lightning tap (locally) or open your app (cloud). Then, use the predict API address to make requests to your server. To do this, you can use the code snippet provided in the tab, or use the client.py file in the examples/stable-diffusion directory. Just remember to update the URL to your current predict URL. 
 
 Then, run:
 ```  bash
