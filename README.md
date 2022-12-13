@@ -12,7 +12,7 @@ GPT-3 ("Generative Pretrained Transformer 3") is a natural language processing (
   
 ## Let's integrate it into an example:
 
-This example showcases how to use the component to enhance the prompts in the Stable Diffusion (SD). Using these prompts, Stable Diffusion can generate more detailed and realistic images with the SD algorithm. To run this example save this code as app.py:
+This example showcases how to use the component to enhance the prompts to Stable Diffusion (SD). Using these prompts, Stable Diffusion can generate more detailed and realistic images with the SD algorithm. To run this example save this code as app.py:
 
 
 ``` python 
