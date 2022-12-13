@@ -25,12 +25,12 @@ cd lightning-gpt3/examples/stable-diffusion
 ## Step 3:
 To run the  app locally using the command:
 
-### Server:
+ **Server:**
 ``` bash
 lightning run app app.py --setup
 ```
 
-### Simple UI:
+**Simple UI:**
 ``` bash
 lightning run app app_simple_UI.py --setup
 ```
@@ -39,11 +39,13 @@ lightning run app app_simple_UI.py --setup
 
 If you prefer to run it in the cloud use:
 
-### Server:
+
+ **Server:**
 ``` bash
 lightning run app app.py --setup --cloud
 ```
-### Simple UI:
+**
+Simple UI:**
 ``` bash
 lightning run app app_simple_UI.py --setup --cloud
 ```
