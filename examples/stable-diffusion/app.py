@@ -5,24 +5,19 @@
 
 
 import lightning as L
-import torch, os, io, base64, pydantic
-from lightning.app.components import Image, serve
+import torch, os, io, base64
+from lightning.app.components import Image, serve, Text
 from ldm.lightning import LightningStableDiffusion, PromptDataset
 from lightning_gpt3 import LightningGPT3
 
 
+# For running on M1/M2
 os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
 
 
-class Text(pydantic.BaseModel):
-    text: str
-
-
 class StableDiffusionServer(serve.PythonServer):
-    def __init__(self, input_type=Text, output_type=Image):
-        super().__init__(
-            input_type=input_type, output_type=output_type, cloud_compute=L.CloudCompute("gpu-fast", shm_size=512)
-        )
+    def __init__(self, cloud_compute, input_type=Text, output_type=Image):
+        super().__init__(input_type=input_type, output_type=output_type, cloud_compute=cloud_compute)
         self._model = None
         self._gpt3 = LightningGPT3(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -32,11 +27,7 @@ class StableDiffusionServer(serve.PythonServer):
         )
 
         self._trainer = L.Trainer(
-            accelerator="auto",
-            devices=1,
-            precision=16 if torch.cuda.is_available() else 32,
-            enable_progress_bar=False,
-            inference_mode=torch.cuda.is_available(),
+            accelerator="auto", devices=1, precision=16 if torch.cuda.is_available() else 32, enable_progress_bar=False
         )
 
         self._model = LightningStableDiffusion(
@@ -52,7 +43,7 @@ class StableDiffusionServer(serve.PythonServer):
 
     def predict(self, request: Text):
         prompt = "Describe a " + request.text + " picture"
-        enhanced_prompt = self._gpt3.generate(prompt=prompt, max_tokens=40)[2::]
+        enhanced_prompt = self._gpt3.generate(prompt=prompt, max_tokens=40)
         image = self._trainer.predict(self._model, torch.utils.data.DataLoader(PromptDataset([enhanced_prompt])))[0][0]
         buffer = io.BytesIO()
         image.save(buffer, format="PNG")
@@ -60,4 +51,4 @@ class StableDiffusionServer(serve.PythonServer):
         return {"image": f"data:image/png;base64,{img_str}"}
 
 
-app = L.LightningApp(StableDiffusionServer())
+app = L.LightningApp(StableDiffusionServer(cloud_compute=L.CloudCompute("gpu-fast", disk_size=80)))
