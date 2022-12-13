@@ -47,7 +47,8 @@ class StableDiffusionServer(serve.PythonServer):
         )
 
         self._trainer = L.Trainer(
-            accelerator="auto", devices=1, precision=16 if torch.cuda.is_available() else 32, enable_progress_bar=False
+            accelerator="auto", devices=1, precision=16 if torch.cuda.is_available() else 32,
+            enable_progress_bar=False
         )
 
         self._model = LightningStableDiffusion(
