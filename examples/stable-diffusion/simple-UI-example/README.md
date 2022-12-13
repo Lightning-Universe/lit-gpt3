@@ -1,6 +1,6 @@
-# Prompt Generation using GPT-3 + Stable Diffusion
+# Prompt Generation using GPT-3 + Stable Diffusion Simple UI
 
- This example showcases how to use the component to enhance the prompts in the Stable Diffusion (SD), using a simple user interface that allows you to interact with the model and see the enhanced prompt and generates images. 
+ This example showcases how to use the component to enhance the prompts in the Stable Diffusion (SD), using a simple User Interface (UI) that allows you to interact with the model and see the enhanced prompt and generates images. 
  
 
  ## Step 1:
