@@ -106,6 +106,8 @@ lightning run app app.py --setup --env OPENAI_API_KEY=<OPENAI_API_KEY>
 
 ```
 
+**_NOTE:_**  This process will download the stable diffusion weights from s3, which are 4.27 GB in size. The time it takes will depend on your internet speed
+
 
 ## Run it in the cloud
 
