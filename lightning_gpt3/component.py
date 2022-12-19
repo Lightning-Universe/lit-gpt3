@@ -27,4 +27,4 @@ class LightningGPT3:
             )
 
         response = openai.Completion.create(model=GPT_MODEL, prompt=prompt, max_tokens=max_tokens, temperature=0.7)
-        return response["choices"][0]["text"][2::]
+        return response["choices"][0]["text"]
