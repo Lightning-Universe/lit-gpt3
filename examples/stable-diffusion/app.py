@@ -12,7 +12,7 @@ from lightning_gpt3 import LightningGPT3
 os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
 
 
-class PromptEnhancedStableDiffusionServer(L.app.components.PythonServer.serve.PythonServer):
+class PromptEnhancedStableDiffusionServer(L.app.components.PythonServer):
     def __init__(self, cloud_compute, input_type, output_type):
         super().__init__(input_type=input_type, output_type=output_type, cloud_compute=cloud_compute)
         self._model = None
