@@ -6,7 +6,7 @@ import requests
 
 if __name__ == "__main__":
     response = requests.post(
-        "https://gmohx-01gpksza0c543x0xmzt8wpb55n.litng-ai-03.litng.ai/predict",
+        "https://siqzv-01gpkvqpy5k6g7sw5s9nckvhnr.litng-ai-03.litng.ai/predict",
         json={"text": "forest-inspired bedroom", "enhacement": True},
     )
 

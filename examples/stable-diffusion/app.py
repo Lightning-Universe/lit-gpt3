@@ -3,23 +3,16 @@
 # !curl https://raw.githubusercontent.com/Lightning-AI/stablediffusion/lit/configs/stable-diffusion/v1-inference.yaml -o v1-inference.yaml
 # !pip install 'git+https://github.com/Lightning-AI/lightning-gpt3.git'
 
-import base64
-import io
-import os
 
-import ldm
 import lightning as L
-import pydantic
-import torch
-from lightning.app.components import serve
-
+import base64, io, os,ldm, pydantic,torch
 from lightning_gpt3 import LightningGPT3
 
 # For running on M1/M2
 os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
 
 
-class PromptEnhancedStableDiffusionServer(serve.PythonServer):
+class PromptEnhancedStableDiffusionServer(L.app.components.PythonServer.serve.PythonServer):
     def __init__(self, cloud_compute, input_type, output_type):
         super().__init__(input_type=input_type, output_type=output_type, cloud_compute=cloud_compute)
         self._model = None
@@ -33,7 +26,8 @@ class PromptEnhancedStableDiffusionServer(serve.PythonServer):
             config_path="v1-inference.yaml",
             checkpoint_path="v1-5-pruned-emaonly.ckpt",
             device=device,
-            steps=30,
+            steps=40,
+            use_deepspeed = False
         )
 
     def predict(self, request):
@@ -61,6 +55,6 @@ class SD_input(pydantic.BaseModel):
 
 app = L.LightningApp(
     PromptEnhancedStableDiffusionServer(
-        cloud_compute=L.CloudCompute("gpu-rtx", disk_size=80), input_type=SD_input, output_type=SD_output
+        cloud_compute=L.CloudCompute("gpu-fast", disk_size=80), input_type=SD_input, output_type=SD_output
     )
 )
