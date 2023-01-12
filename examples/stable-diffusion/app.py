@@ -1,65 +1,66 @@
-# !pip install 'git+https://github.com/Lightning-AI/lightning-gpt3.git'
-# !pip install 'git+https://github.com/Lightning-AI/LAI-API-Access-UI-Component.git@diffusion'
 # !pip install 'git+https://github.com/Lightning-AI/stablediffusion.git@lit'
-# !curl https://raw.githubusercontent.com/runwayml/stable-diffusion/main/configs/stable-diffusion/v1-inference.yaml -o v1-inference.yaml
+# !pip install 'git+https://github.com/Lightning-AI/LAI-API-Access-UI-Component.git'
+# !curl https://raw.githubusercontent.com/Lightning-AI/stablediffusion/lit/configs/stable-diffusion/v1-inference.yaml -o v1-inference.yaml
+# !pip install 'git+https://github.com/Lightning-AI/lightning-gpt3.git'
 
+import base64
+import io
+import os
 
+import ldm
 import lightning as L
-import torch, os, io, base64, pydantic, ldm
-from lightning.app.components import Image, serve
-from lightning_gpt3 import LightningGPT3
+import pydantic
+import torch
+from lightning.app.components import serve
 
+from lightning_gpt3 import LightningGPT3
 
 # For running on M1/M2
 os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
 
 
 class PromptEnhancedStableDiffusionServer(serve.PythonServer):
-    def __init__(self, cloud_compute, input_type, output_type=Image):
+    def __init__(self, cloud_compute, input_type, output_type):
         super().__init__(input_type=input_type, output_type=output_type, cloud_compute=cloud_compute)
         self._model = None
         self._gpt3 = LightningGPT3(api_key=os.getenv("OPENAI_API_KEY"))
 
     def setup(self):
-        os.system(
-            "curl -C - https://pl-public-data.s3.amazonaws.com/dream_stable_diffusion/v1-5-pruned-emaonly.ckpt -o v1-5-pruned-emaonly.ckpt"
-        )
-
-        self._trainer = L.Trainer(
-            accelerator="auto", 
-            devices=1, 
-            precision=16 if torch.cuda.is_available() else 32, 
-            enable_progress_bar=False,
-            inference_mode=torch.cuda.is_available(),
-        )
-
+        cmd = "curl -C - https://pl-public-data.s3.amazonaws.com/dream_stable_diffusion/v1-5-pruned-emaonly.ckpt -o v1-5-pruned-emaonly.ckpt"
+        os.system(cmd)
+        device = "cuda" if torch.cuda.is_available() else "cpu"
         self._model = ldm.lightning.LightningStableDiffusion(
             config_path="v1-inference.yaml",
             checkpoint_path="v1-5-pruned-emaonly.ckpt",
-            device=self._trainer.strategy.root_device.type,
-            size=512,
+            device=device,
+            steps=30,
         )
 
-        if torch.cuda.is_available():
-            self._model = self._model.to(torch.float16)
-            torch.cuda.empty_cache()
-
     def predict(self, request):
-        prompt = "Describe a " + request.text + " picture"
-        enhanced_prompt = self._gpt3.generate(prompt=prompt, max_tokens=40)
-        image = self._trainer.predict(self._model, torch.utils.data.DataLoader(
-            ldm.lightning.PromptDataset([enhanced_prompt]))
-        )[0][0]
+        if request.enhacement:
+            prompt = "Describe a " + request.text + " picture"
+            prompt = self._gpt3.generate(prompt=prompt, max_tokens=75)
+        else:
+            prompt = request.text
+        image = self._model.predict_step(prompts=[prompt], batch_idx=0)[0]
         buffer = io.BytesIO()
         image.save(buffer, format="PNG")
         img_str = base64.b64encode(buffer.getvalue()).decode("utf-8")
-        return {"image": f"data:image/png;base64,{img_str}"}
+        return {"image": f"data:image/png;base64,{img_str}", "Enhanced_prompt": prompt}
 
-class Text(pydantic.BaseModel):
+
+class SD_output(pydantic.BaseModel):
+    image: str
+    Enhanced_prompt: str
+
+
+class SD_input(pydantic.BaseModel):
     text: str
+    enhacement: bool
+
 
 app = L.LightningApp(
     PromptEnhancedStableDiffusionServer(
-        cloud_compute=L.CloudCompute("gpu-fast", disk_size=80),
-        input_type=Text
-))
+        cloud_compute=L.CloudCompute("gpu-rtx", disk_size=80), input_type=SD_input, output_type=SD_output
+    )
+)
