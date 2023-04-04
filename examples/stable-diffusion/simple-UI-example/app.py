@@ -4,15 +4,22 @@
 # !pip install 'git+https://github.com/Lightning-AI/lightning-gpt3.git'
 # !curl https://raw.githubusercontent.com/runwayml/stable-diffusion/main/configs/stable-diffusion/v1-inference.yaml -o v1-inference.yaml
 
-import lightning as L
-import os
+import asyncio
+import base64
+import functools
 import inspect
-import asyncio, torch, base64, functools, time, io
+import io
+import os
+import time
 from io import BytesIO
 from typing import Any, Callable, Optional
+
+import lightning as L
+import torch
 from ldm.lightning import LightningStableDiffusion, PromptDataset
 from nicegui import ui
 from pydantic import BaseModel
+
 from lightning_gpt3 import LightningGPT3
 
 os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
@@ -60,10 +67,10 @@ def webpage(
     async def prompt_enhace():
         nonlocal reference_inference_time_prompt
         t0 = time.time()
-        #progress_prompt.value = 0.0001
+        # progress_prompt.value = 0.0001
         prediction = await io_bound(enhace_fn, request=Text(text=prompt.value))
         enhance_prompt.value = prediction
-       # progress_prompt.value = 1.0
+        # progress_prompt.value = 1.0
         reference_inference_time_prompt = time.time() - t0
 
     # User Interface
@@ -72,12 +79,13 @@ def webpage(
             ui.label("Stable Diffusion with Prompt Enhancement with Lightning AI").classes("text-2xl")
             prompt = ui.input("Prompt").style("width: 50em")
             prompt.value = "a forest-inspired office space"
-           # progress_prompt = ui.linear_progress()
+            # progress_prompt = ui.linear_progress()
             ui.timer(interval=0.1, callback=progress_tracker)
             ui.button("Prompt Enhace", on_click=prompt_enhace).style("width: 15em")
-            
-            enhance_prompt = ui.input("Edit Enhanced Prompt",
-                 on_change=lambda e: input_result.set_text(e.value)).style("width: 50em")
+
+            enhance_prompt = ui.input("Edit Enhanced Prompt", on_change=lambda e: input_result.set_text(e.value)).style(
+                "width: 50em"
+            )
             ui.label("Enhanced Prompt:").style("font-size: 110%")
             input_result = ui.label().style("width: 50em")
             enhance_prompt.value = enhance_prompt_text
@@ -99,7 +107,6 @@ def webpage(
 
 
 class DiffusionServeInteractive(L.LightningWork):
-
     _start_method = "spawn"
 
     def setup(self):
@@ -134,10 +141,7 @@ class DiffusionServeInteractive(L.LightningWork):
 
     def predict(self, request):
         with torch.no_grad():
-            image = self._trainer.predict(self._model, torch.utils.data.DataLoader(PromptDataset(
-                [request.text])))[
-                0
-            ][0]
+            image = self._trainer.predict(self._model, torch.utils.data.DataLoader(PromptDataset([request.text])))[0][0]
         buffer = io.BytesIO()
         image.save(buffer, format="PNG")
         img_str = base64.b64encode(buffer.getvalue()).decode("utf-8")

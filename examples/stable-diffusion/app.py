@@ -4,8 +4,15 @@
 # !pip install 'git+https://github.com/Lightning-AI/lightning-gpt3.git'
 
 
+import base64
+import io
+import os
+
+import ldm
 import lightning as L
-import base64, io, os,ldm, pydantic,torch
+import pydantic
+import torch
+
 from lightning_gpt3 import LightningGPT3
 
 # For running on M1/M2
@@ -27,7 +34,7 @@ class PromptEnhancedStableDiffusionServer(L.app.components.PythonServer):
             checkpoint_path="v1-5-pruned-emaonly.ckpt",
             device=device,
             steps=40,
-            use_deepspeed = False
+            use_deepspeed=False,
         )
 
     def predict(self, request):
