@@ -22,7 +22,7 @@ This example showcases how to use the component to enhance the prompts to Stable
 
 
 import lightning as L
-import base64, io, os,ldm, pydantic,torch
+import base64, io, os, ldm, pydantic, torch
 from lightning_gpt3 import LightningGPT3
 
 # For running on M1/M2
@@ -31,7 +31,9 @@ os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
 
 class PromptEnhancedStableDiffusionServer(L.app.components.PythonServer):
     def __init__(self, cloud_compute, input_type, output_type):
-        super().__init__(input_type=input_type, output_type=output_type, cloud_compute=cloud_compute)
+        super().__init__(
+            input_type=input_type, output_type=output_type, cloud_compute=cloud_compute
+        )
         self._model = None
         self._gpt3 = LightningGPT3(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -44,7 +46,7 @@ class PromptEnhancedStableDiffusionServer(L.app.components.PythonServer):
             checkpoint_path="v1-5-pruned-emaonly.ckpt",
             device=device,
             steps=40,
-            use_deepspeed = False
+            use_deepspeed=False,
         )
 
     def predict(self, request):
@@ -72,7 +74,9 @@ class SD_input(pydantic.BaseModel):
 
 app = L.LightningApp(
     PromptEnhancedStableDiffusionServer(
-        cloud_compute=L.CloudCompute("gpu-fast", disk_size=80), input_type=SD_input, output_type=SD_output
+        cloud_compute=L.CloudCompute("gpu-fast", disk_size=80),
+        input_type=SD_input,
+        output_type=SD_output,
     )
 )
 ```
